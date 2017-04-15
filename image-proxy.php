@@ -1,9 +1,6 @@
 <?php
 //set_time_limit(10); //Thought this overrides the settings but apparently only appends, so rip me.
 
-date_default_timezone_set('Europe/Berlin'); // CDT
-$current_date = date('H:i:s - d/m/Y');
-
 $image = htmlentities($_GET['url']);
 $ext = substr($image, -3); //Couldn't think of a better idea...
 
