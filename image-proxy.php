@@ -1,40 +1,54 @@
 <?php
 //set_time_limit(10); //Thought this overrides the settings but apparently only appends, so rip me.
-
 function getUrlMimeType($url) {
     $buffer = file_get_contents($url);
     $finfo = new finfo(FILEINFO_MIME_TYPE);
     return $finfo->buffer($buffer);
 }
 
-$image = htmlentities($_GET['url']);
-$ext = substr($image, -3); //Couldn't think of a better idea...
+$mimetypes = ['image/png','image/jpg','image/jpeg','image/gif','video/mp4'];
 
-$ext = getUrlMimeType($image);
+$url = htmlentities($_GET['url']);
+$mime = getUrlMimeType($url);
 
-switch ($ext) {
-	case 'jpg':
-	$mime = 'image/jpeg';
-        break;
-    case 'gif':
-        $mime = 'image/gif';
-        break;
-    case 'png':
-        $mime = 'image/png';
-        break;
-    default:
-        $mime = false;
-}
 // if a valid MIME type exists, display the image
 // by sending appropriate headers and streaming the file
+foreach($mimetypes as $mimetype) {
+	if ($mime == $mimetype){
+		header('Content-type: '.$mime.';');
+		if(isset($url)){
+			echo file_get_contents($url);
+			die;
+		}
+	}
+} 
 
+echo "Sorry, my creator forbid me to do this.";
+/*
 
-if ($mime !== false) {
-header('Content-type: '.$mime.';');
-	if(isset($image)){echo file_get_contents($image);}
+function getIP() {
+	$ip = '';
+
+	// Precedence: if set, X-Forwarded-For > HTTP_X_FORWARDED_FOR > HTTP_CLIENT_IP > HTTP_VIA > REMOTE_ADDR
+	$headers = array( 'X-Forwarded-For', 'HTTP_X_FORWARDED_FOR', 'HTTP_CLIENT_IP', 'HTTP_VIA', 'CF-Connecting-IP', 'REMOTE_ADDR' );
+	foreach( $headers as $header ) {
+		if ( !empty( $_SERVER[ $header ] ) ) {
+			$ip = $_SERVER[ $header ];
+			break;
+		}
+	}
+	
+	// headers can contain multiple IPs (X-Forwarded-For = client, proxy1, proxy2). Take first one.
+	if ( strpos( $ip, ',' ) !== false )
+		$ip = substr( $ip, 0, strpos( $ip, ',' ) );
+	
+	return $ip;
 }
-else{
-	echo "Sorry, my creator forbid me to do this.";
-	die;
-}
+$ip = getIP();
+$handle = fopen("ips.txt", "a+");
+fwrite($handle, $ip . "   |   " . $current_date);
+fwrite($handle, "\n");
+fclose($handle);
+
+*/
 ?>
