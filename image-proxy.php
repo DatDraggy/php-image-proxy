@@ -5,7 +5,8 @@ function getUrlMimeType($url) {
     $finfo = new finfo(FILEINFO_MIME_TYPE);
     return $finfo->buffer($buffer);
 }
-
+date_default_timezone_set('Europe/Berlin'); // Change this to your own timezone
+$current_date = date('H:i:s - d/m/Y');
 $mimetypes = ['image/png','image/jpg','image/jpeg','image/gif','video/mp4'];
 
 $url = htmlentities($_GET['url']);
