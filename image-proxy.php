@@ -26,7 +26,6 @@ foreach($mimetypes as $mimetype) {
 
 echo "Sorry, my creator forbid me to do this.";
 /*
-
 function getIP() {
 	$ip = '';
 
@@ -45,6 +44,7 @@ function getIP() {
 	
 	return $ip;
 }
+
 $ip = getIP();
 $handle = fopen("ips.txt", "a+");
 fwrite($handle, $ip . "   |   " . $current_date);
