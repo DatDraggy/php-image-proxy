@@ -47,6 +47,7 @@ function getIP() {
 $ip = getIP();
 $handle = fopen("ips.txt", "a+");
 fwrite($handle, $ip . "   |   " . $current_date);
+fwrite($handle, "   |   " . $mime);
 fwrite($handle, "\n");
 fclose($handle);
 
